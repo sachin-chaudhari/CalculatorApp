@@ -46,5 +46,6 @@ calcApp.controller('CalcController',['$scope', function($scope) {
             $scope.expression = $scope.expression + '' + num;
         };
         $scope.result = eval($scope.expression);
+        lastOpr=undefined;
     };
 }]);
