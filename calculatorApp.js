@@ -4,19 +4,27 @@ calcApp.controller('CalcController',['$scope', function($scope) {
     $scope.result=0;
     $scope.expression=0;
     $scope.hideExpr=false;
-    var lastOpr;
+    var isOpr = false;
     $scope.handleClick = function(obj){
         if(isNaN(obj.target.value)){
             if(obj.target.value == '=')
             {
                 handleEquals();
             }
+            else if (obj.target.value == 'Clear')
+            {
+                $scope.expression = 0;
+                $scope.result = 0;
+                $scope.hideExpr = false;
+            }
             else {
                 handleOpr(obj.target.value);
             }
+            isOpr = true;
         }
         else{
-            handleNum(obj.target.value)
+            handleNum(obj.target.value);
+            isOpr = false;
         };
     };
     var handleEquals = function() {
@@ -25,10 +33,9 @@ calcApp.controller('CalcController',['$scope', function($scope) {
     };
     var handleOpr = function(opr) {
         $scope.hideExpr = false;
-        if(lastOpr != opr)
+        if(!isOpr)
         {
             $scope.expression = $scope.expression + ' ' + opr + ' ';
-            lastOpr = opr;
         }
     };
     var handleNum = function(num) {
@@ -46,6 +53,5 @@ calcApp.controller('CalcController',['$scope', function($scope) {
             $scope.expression = $scope.expression + '' + num;
         };
         $scope.result = eval($scope.expression);
-        lastOpr=undefined;
     };
 }]);
